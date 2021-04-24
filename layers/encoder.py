@@ -24,12 +24,13 @@ class TransformerEncoder(tf.keras.layers.Layer):
         self.ln1 = LayerNormalization()
         self.ln2 = LayerNormalization()
         
-        self.MSA = MSA(latent_dim, heads_num)
+        self.MSA = MSA(latent_dim, heads_num, dropout_rate)
         self.MLP = MLP(latent_dim, mlp_dim, dropout_rate)
         
     def call(self, input):
         norm_input = self.ln1(input)
         msa = self.MSA(norm_input)
+        #x = 
         x = msa + norm_input
         norm_msa = self.ln2(x)
         mlp = self.MLP(norm_msa)
@@ -45,9 +46,10 @@ class MSA(tf.keras.layers.Layer):
     Args:
         latent_dim (int): The size of latent vectors.
         heads_num (int): The number of heads.
+        dropout_rate (float): Dropout rate.
     """
     
-    def __init__(self, latent_dim, heads_num):
+    def __init__(self, latent_dim, heads_num, dropout_rate):
         super().__init__()
         Dh = int(latent_dim / heads_num)
         
@@ -58,7 +60,12 @@ class MSA(tf.keras.layers.Layer):
         # I decided not to write it myself since it is several matrix 
         # multiplications and I might make a mistake somewhere 
         # or do it inefficiently.
-        self.mha = MultiHeadAttention(heads_num, Dh, attention_axes=(2,))
+        self.mha = MultiHeadAttention(
+            heads_num, 
+            Dh, 
+            attention_axes=(2,),
+            dropout=dropout_rate,
+        )
     
     
     def call(self, input):
@@ -88,8 +95,8 @@ class MLP(tf.keras.layers.Layer):
         x = self.dense1(input)
         x = gelu(x)
         x = self.dropout1(x, training)
+        
         x = self.dense2(x)
-        x = gelu(x)
         output = self.dropout2(x, training)
         
         return output

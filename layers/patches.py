@@ -1,6 +1,6 @@
 import tensorflow as tf
 import warnings
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.initializers import RandomNormal
 
 
@@ -14,9 +14,10 @@ class EmbeddedPatches(tf.keras.layers.Layer):
         patch_size (int): The size of one side of a square patch.
         latent_dim (int): The size of latent vectors in encoder layers.
             All the patches will be projected to this dimension.
+        dropout_rate (float): Dropout rate.
     """
     
-    def __init__(self, patch_size, latent_dim):
+    def __init__(self, patch_size, latent_dim, dropout_rate):
         super().__init__()
         self.patch_size = patch_size
         self.latent_dim = latent_dim
@@ -29,6 +30,8 @@ class EmbeddedPatches(tf.keras.layers.Layer):
         self.broadcast_class_emb = None
         
         self.position_emb = None
+        
+        self.dropout = Dropout(dropout_rate)
         
     def build(self, input_shape):
         print(input_shape)
@@ -56,7 +59,7 @@ class EmbeddedPatches(tf.keras.layers.Layer):
         )
     
         
-    def call(self, input):
+    def call(self, input, training):
         batch_size = tf.shape(input)[0]
         patches = tf.image.extract_patches(input, 
                                         sizes=[1, self.patch_size, self.patch_size, 1], 
@@ -78,6 +81,9 @@ class EmbeddedPatches(tf.keras.layers.Layer):
         bc_pos_emb = tf.broadcast_to(self.pos_emb,
                                           [batch_size, self.N + 1, self.latent_dim])
         patches = patches + bc_pos_emb
+        
+        # dropout
+        patches = self.dropout(patches, training)
         
         return patches
 
