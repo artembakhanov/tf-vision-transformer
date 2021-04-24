@@ -4,7 +4,21 @@ from tensorflow.keras.activations import gelu
 
 
 class TransformerEncoder(tf.keras.layers.Layer):
-    def __init__(self, latent_dim, heads_num, mlp_dim, dropout_rate):
+    """
+    This class represents one encoder of the transformer.
+    
+    Args:
+        latent_dim (int): The size of latent vectors.
+        heads_num (int): The number of heads in MSA layers.
+        mlp_dim (int): The size of one hidden layer in the MLP.
+        dropout_rate (float): Dropout rate.
+    """
+    
+    def __init__(self, 
+                 latent_dim, 
+                 heads_num, 
+                 mlp_dim, 
+                 dropout_rate):
         super().__init__()
         
         self.ln1 = LayerNormalization()
@@ -25,18 +39,26 @@ class TransformerEncoder(tf.keras.layers.Layer):
 
 
 class MSA(tf.keras.layers.Layer):
-    def __init__(self, D, heads):
+    """
+    Multihead self-attention.
+    
+    Args:
+        latent_dim (int): The size of latent vectors.
+        heads_num (int): The number of heads.
+    """
+    
+    def __init__(self, latent_dim, heads_num):
         super().__init__()
-        Dh = int(D / heads)
+        Dh = int(latent_dim / heads_num)
         
-        if int(D / heads) == 0:
+        if int(latent_dim / heads_num) == 0:
             raise ValueError("Incorrect number of heads."
                              "Try to take smaller number.")
         
         # I decided not to write it myself since it is several matrix 
         # multiplications and I might make a mistake somewhere 
         # or do it inefficiently.
-        self.mha = MultiHeadAttention(heads, Dh, attention_axes=(2,))
+        self.mha = MultiHeadAttention(heads_num, Dh, attention_axes=(2,))
     
     
     def call(self, input):
@@ -44,6 +66,15 @@ class MSA(tf.keras.layers.Layer):
     
 
 class MLP(tf.keras.layers.Layer):
+    """
+    A simple two-layer perceptron used in encoders.
+    
+    Args:
+        latent_dim (int): The size of latent vectors.
+        mlp_dim (int): The size of a hidden layer.
+        dropout_rate (float): Dropout rate.
+    """
+    
     def __init__(self, latent_dim, mlp_dim, dropout_rate):
         super().__init__()
         self.dense1 = Dense(mlp_dim)
