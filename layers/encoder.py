@@ -63,7 +63,7 @@ class MSA(tf.keras.layers.Layer):
         self.mha = MultiHeadAttention(
             heads_num, 
             Dh, 
-            attention_axes=(2,),
+            attention_axes=(1,),
             dropout=dropout_rate,
         )
     
