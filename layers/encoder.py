@@ -27,16 +27,23 @@ class TransformerEncoder(tf.keras.layers.Layer):
         self.MSA = MSA(latent_dim, heads_num, dropout_rate)
         self.MLP = MLP(latent_dim, mlp_dim, dropout_rate)
         
-    def call(self, input):
+    def call(self, input, ret_scores=False):
         norm_input = self.ln1(input)
-        msa = self.MSA(norm_input)
-        #x = 
+        
+        if ret_scores:
+            msa, scores = self.MSA(norm_input, ret_scores)
+        else:
+            msa = self.MSA(norm_input)
+        
         x = msa + norm_input
         norm_msa = self.ln2(x)
         mlp = self.MLP(norm_msa)
         output = mlp + norm_msa
         
-        return output
+        if ret_scores:
+            return output, scores
+        else:
+            return output
 
 
 class MSA(tf.keras.layers.Layer):
@@ -68,8 +75,8 @@ class MSA(tf.keras.layers.Layer):
         )
     
     
-    def call(self, input):
-        return self.mha(input, input)
+    def call(self, input, ret_scores=False):
+        return self.mha(input, input, return_attention_scores=ret_scores)
     
 
 class MLP(tf.keras.layers.Layer):
@@ -91,12 +98,12 @@ class MLP(tf.keras.layers.Layer):
         self.dropout2 = Dropout(dropout_rate)
     
     
-    def call(self, input, training):
+    def call(self, input):
         x = self.dense1(input)
         x = gelu(x)
-        x = self.dropout1(x, training)
+        x = self.dropout1(x)
         
         x = self.dense2(x)
-        output = self.dropout2(x, training)
+        output = self.dropout2(x)
         
         return output

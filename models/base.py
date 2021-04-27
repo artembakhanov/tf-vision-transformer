@@ -28,15 +28,24 @@ class VisionTransformer(tf.keras.Model):
         
         self.mlp_head = MLPHead(classes_num)
         
-    def call(self, input, training):
-        x = self.emb_patches(input)
+    def call(self, input, training, ret_scores=False):
+        x = self.emb_patches(input, training)
+        
+        all_scores = []
         
         for encoder in self.encoders:
-            x = encoder(x)
+            x = encoder(x, ret_scores)
+            if ret_scores:
+                x, scores = x
+                all_scores.append(scores)
+                
         
         # extract class
         x = x[:, 0, :]
 
         x = self.mlp_head(x)
         
-        return x
+        if ret_scores:
+            return x, all_scores
+        else:
+            return x
