@@ -42,7 +42,7 @@ if __name__ == "__main__":
     log_dir.mkdir(parents=True, exist_ok=True)
     checkpoints_dir.mkdir(parents=True, exist_ok=True)
     
-    checkpoint_filepath = checkpoints_dir / model_time / "weights.{epoch:03d}-{val_loss:.2f}-{val_accuracy:.2f}.hdf5"
+    checkpoint_filepath = checkpoints_dir / model_time / "weights.{epoch:03d}-{val_loss:.2f}-{val_accuracy:.2f}.ckpt"
     
     # setup logger
     logger = logging.getLogger()
@@ -114,3 +114,6 @@ if __name__ == "__main__":
               epochs=args.epochs, 
               validation_data=test_ds, 
               callbacks=callbacks)
+    
+    model.save_weights(checkpoints_dir / model_time / "final.weights")
+    
