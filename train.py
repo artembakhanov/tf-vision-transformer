@@ -38,7 +38,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     model_time_name = datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + f"_{args.model_name}"
-    log_dir = Path(args.logdir) / model_time
+    log_dir = Path(args.logdir) / model_time_name
     checkpoints_dir = Path(args.checkpoints_dir)
     
     log_dir.mkdir(parents=True, exist_ok=True)
@@ -47,7 +47,7 @@ if __name__ == "__main__":
     model_dir = Path(args.model_dir) / model_time_name
     model_dir.mkdir(parents=True, exist_ok=True)
     
-    checkpoint_filepath = checkpoints_dir / model_time / "weights.{epoch:03d}-{val_loss:.2f}-{val_accuracy:.2f}.ckpt"
+    checkpoint_filepath = checkpoints_dir / model_time_name / "weights.{epoch:03d}-{val_loss:.2f}-{val_accuracy:.2f}.ckpt"
     
     # setup logger
     logger = logging.getLogger()
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     logger.info(f"Starting training model {model_time_name}.")
     logger.info(f"Logs will be saved here: {Path.cwd() / log_dir}")
     if args.checkpoints:
-        logger.info(f"Checkpoints will be saved in {Path.cwd() / checkpoints_dir / model_time}")
+        logger.info(f"Checkpoints will be saved in {Path.cwd() / checkpoints_dir / model_time_name}")
     logger.info(f"Model weights will be saved in {model_dir}")
     
     logger.info(f"")
