@@ -1,4 +1,6 @@
-tensorflow
-tensorflow_addons
+tensorflow-gpu==2.4.0
+tensorflow_addons==0.12.1
 numpy
 coolname
+scipy==1.5.4
+
