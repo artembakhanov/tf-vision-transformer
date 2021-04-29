@@ -28,7 +28,7 @@ def load_data(dataset, batch_size=128):
     elif dataset == "fruits-360":
         dataset_dir = f"./datasets/{dataset}"
         if not os.path.isdir(dataset_dir):
-            raise RuntimeError("The {dataset} cannot be found. "
+            raise RuntimeError(f"The {dataset} cannot be found. "
                                f"Please download it and unpack into datasets directory. "
                                f"Do not forget to mount the directory to this container. ")
             
