@@ -47,7 +47,7 @@ def load_data(dataset, batch_size=128):
                                      batch_size=batch_size,
                                      class_mode="sparse")
         
-        test_ds = test_ds.flow_from_directory(train_dir, 
+        test_ds = test_ds.flow_from_directory(test_dir, 
                                      target_size=(100, 100),
                                      batch_size=batch_size,
                                      class_mode="sparse")
