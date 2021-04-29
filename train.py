@@ -31,17 +31,21 @@ if __name__ == "__main__":
     parser.add_argument("--epochs", default=40, type=int)
     parser.add_argument("--model-name", default=generate_slug(2))
     parser.add_argument("--checkpoints", action='store_true')
-    parser.add_argument("--checkpoints-dir", default="./checkpoints")
+    parser.add_argument("--checkpoints-dir", default="checkpoints/")
     parser.add_argument("--save-freq", default=3, type=int)
     parser.add_argument("--save-weights", action='store_true')
+    parser.add_argument("--model-dir", default="saved_models/")
     args = parser.parse_args()
     
-    model_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    model_time_name = datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + f"_{args.model_name}"
     log_dir = Path(args.logdir) / model_time
     checkpoints_dir = Path(args.checkpoints_dir)
     
     log_dir.mkdir(parents=True, exist_ok=True)
     checkpoints_dir.mkdir(parents=True, exist_ok=True)
+
+    model_dir = Path(args.model_dir) / model_time_name
+    model_dir.mkdir(parents=True, exist_ok=True)
     
     checkpoint_filepath = checkpoints_dir / model_time / "weights.{epoch:03d}-{val_loss:.2f}-{val_accuracy:.2f}.ckpt"
     
@@ -57,10 +61,11 @@ if __name__ == "__main__":
     logger.addHandler(stdout_handler)
     
     
-    logger.info(f"Starting model {args.model_name} training.")
+    logger.info(f"Starting training model {model_time_name}.")
     logger.info(f"Logs will be saved here: {Path.cwd() / log_dir}")
     if args.checkpoints:
         logger.info(f"Checkpoints will be saved in {Path.cwd() / checkpoints_dir / model_time}")
+    logger.info(f"Model weights will be saved in {model_dir}")
     
     logger.info(f"")
     
@@ -115,9 +120,14 @@ if __name__ == "__main__":
               epochs=args.epochs, 
               validation_data=test_ds, 
               callbacks=callbacks)
+    logger.info(f"Training finished.")
     
-    
-    model.save(checkpoints_dir / model_time / "final.model")
+    model.save(model_dir / "final.model")
+    logger.info(f"Model saved to {model_dir / 'final.model'}.")
+
     if args.save_weights:
-        model.save_weights(checkpoints_dir / model_time / "final.weights")
+        model.save_weights(model_dir / 'final.weights')
+        logger.info(f"Model weights saved to {model_dir / 'final.weights'}.")
+
+
     
