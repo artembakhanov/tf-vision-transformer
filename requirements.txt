@@ -1,1 +1,4 @@
 tensorflow
+tensorflow_addons
+numpy
+coolname
