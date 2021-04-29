@@ -33,6 +33,7 @@ if __name__ == "__main__":
     parser.add_argument("--checkpoints", action='store_true')
     parser.add_argument("--checkpoints-dir", default="./checkpoints")
     parser.add_argument("--save-freq", default=3, type=int)
+    parser.add_argument("--save-weights", action='store_true')
     args = parser.parse_args()
     
     model_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -115,5 +116,8 @@ if __name__ == "__main__":
               validation_data=test_ds, 
               callbacks=callbacks)
     
-    model.save_weights(checkpoints_dir / model_time / "final.weights")
+    
+    model.save(checkpoints_dir / model_time / "final.model")
+    if args.save_weights:
+        model.save_weights(checkpoints_dir / model_time / "final.weights")
     
