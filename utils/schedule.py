@@ -33,3 +33,13 @@ class ScheduleWithWarmup(tf.keras.optimizers.schedules.LearningRateSchedule):
             lr = lr * tf.math.minimum(1., tf.cast(step, dtype=tf.float32) / self.warmup_steps)
         
         return lr
+
+    def get_config(self):
+        return {
+            "base": self.base,
+            "end": self.end,
+            "total_steps": self.total_steps,
+            "decay_type": self.decay_type,
+            "warmup_steps": self.warmup_steps
+        }
+        
