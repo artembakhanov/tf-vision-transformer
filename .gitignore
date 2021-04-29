@@ -3,6 +3,9 @@ datasets/*
 !datasets/README.md
 logs/*
 
+# checkpoints
+checkpoints/
+
 # MacOS
 .DS_Store/
 
