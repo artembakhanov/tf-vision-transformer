@@ -34,7 +34,6 @@ class EmbeddedPatches(tf.keras.layers.Layer):
         self.dropout = Dropout(dropout_rate)
         
     def build(self, input_shape):
-        print(input_shape)
         if len(input_shape) != 4:
             raise ValueError("Input tensor should have 4 dimensions.")
            
