@@ -24,12 +24,27 @@ Also do not forget to volume bind datasets folder to all your containers.
 
    1. mnist example:
    ```bash
-   docker run --gpus all --rm -it -v $(pwd)/saved_models:/tf/saved_models -v $(pwd)/datasets:/tf/datasets -v $(pwd)/logs:/tf/logs -v $(pwd)/checkpoints:/tf/checkpoints  artembakhanov/vit python train.py --dataset mnist --dropout-rate 0.1 --batch-size 64 --base-lr 0.001 --end-lr 0.001 --checkpoints --epochs 15
+   docker run --gpus all --rm -it \
+   -v $(pwd)/saved_models:/tf/saved_models \
+   -v $(pwd)/datasets:/tf/datasets \
+   -v $(pwd)/logs:/tf/logs \
+   -v $(pwd)/checkpoints:/tf/checkpoints \
+   artembakhanov/vit python train.py \
+   --dataset mnist --dropout-rate 0.1 --batch-size 64 \
+   --base-lr 0.001 --end-lr 0.001 --checkpoints --epochs 15
    ```
    
    2. fruits-360 example:
    ```bash
-   docker run --gpus all --rm -it -v $(pwd)/saved_models:/tf/saved_models -v $(pwd)/datasets:/tf/datasets -v $(pwd)/logs:/tf/logs -v $(pwd)/checkpoints:/tf/checkpoints  artembakhanov/vit python train.py --dataset fruits-360 --latent-dim 64 --patch-size 10 --heads-num 4 --mlp-dim 128 --encoders_num 4 --dropout-rate 0.1 --batch-size 64 --base-lr 0.001 --end-lr 0.001 --checkpoints --epochs 15
+   docker run --gpus all --rm -it \
+   -v $(pwd)/saved_models:/tf/saved_models \
+   -v $(pwd)/datasets:/tf/datasets -v $(pwd)/logs:/tf/logs \
+   -v $(pwd)/checkpoints:/tf/checkpoints  \
+   artembakhanov/vit python train.py \
+   --dataset fruits-360 --latent-dim 64 --patch-size 10 \
+   --heads-num 4 --mlp-dim 128 --encoders_num 4 \
+   --dropout-rate 0.1 --batch-size 64 --base-lr 0.001 \
+   --end-lr 0.001 --checkpoints --epochs 15
    ```
 3. Help:
     ```bash
