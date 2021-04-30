@@ -38,7 +38,11 @@ def load_data(dataset, batch_size=128):
         
         train_ds = ImageDataGenerator(
             rescale= 1.0 / 255,
-            horizontal_flip=True)
+            horizontal_flip=True,
+            rotation_range=25,
+            zoom_range = 0.2,
+            shear_range = 0.2
+        )
 
         test_ds = ImageDataGenerator(rescale=1.0 / 255)
         
