@@ -1,0 +1,1 @@
+{"patch_size": 4, "latent_dim": 32, "heads_num": 4, "mlp_dim": 64, "encoders_num": 4, "mlp_head_dim": null, "classes_num": 10, "dropout_rate": 0.1}
