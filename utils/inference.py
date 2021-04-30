@@ -1,5 +1,6 @@
 from models.base import VisionTransformer
 from tensorflow.keras.models import load_model
+import tensorflow as tf
 from pathlib import Path
 import json
 
@@ -20,3 +21,14 @@ def load_vit_model(model_dir, compiled=False):
     
     
     return model
+
+def predict(model, images, labels=None):
+    if type(images) == list:
+        images = tf.stack(images)
+        
+    predictions = model(images) 
+    predictions = tf.math.argmax(predictions, axis=1)
+    if labels is not None:
+        predictions = [labels[pred] for pred in predictions]
+    return predictions
+    
