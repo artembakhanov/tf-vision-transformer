@@ -3,6 +3,7 @@ from tensorflow.keras.models import load_model
 import tensorflow as tf
 from pathlib import Path
 import json
+from utils.schedule import ScheduleWithWarmup 
 
 
 def load_vit_model(model_dir, compiled=False):
@@ -25,7 +26,7 @@ def load_vit_model(model_dir, compiled=False):
         raise ValueError(f"{model_dir} is not a valid model directory.")
     
     if compiled:
-        model = load_model(model_dir / "final.model")
+        model = load_model(model_dir / "final.model", custom_objects={'ScheduleWithWarmup': ScheduleWithWarmup})
     else:
         with open(config_file) as f:
             model = VisionTransformer(**(json.loads(f.read())))
