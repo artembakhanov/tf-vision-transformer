@@ -3,6 +3,11 @@ datasets/*
 !datasets/README.md
 logs/*
 
+# saved_models
+saved_models/*
+!pretrained_mnist/*
+!pretrained_fruits-360/*
+
 # checkpoints
 checkpoints/
 
