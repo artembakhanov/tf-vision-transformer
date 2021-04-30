@@ -10,7 +10,7 @@ Before running project, build it with
 docker build -t artembakhanov/vit .
 ```
 
-If you want to to use (Fruits-360)[https://www.kaggle.com/moltean/fruits] dataset, please unpack it to ```datasets``` folder named ```fruits-360```.
+If you want to to use [Fruits-360](https://www.kaggle.com/moltean/fruits) dataset, please unpack it to ```datasets``` folder named ```fruits-360```.
 Also do not forget to volume bind datasets folder to all your containers.
 
 1. Run Jupyter Notebook:
