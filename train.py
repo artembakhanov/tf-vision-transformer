@@ -47,7 +47,7 @@ if __name__ == "__main__":
     model_dir = Path(args.model_dir) / model_time_name
     model_dir.mkdir(parents=True, exist_ok=True)
     
-    checkpoint_filepath = checkpoints_dir / model_time_name / "weights.{epoch:03d}-{val_loss:.2f}-{val_accuracy:.2f}.ckpt"
+    checkpoint_filepath = checkpoints_dir / model_time_name / "weights.{epoch:03d}-{accuracy:.2f}.ckpt"
     
     # setup logger
     logger = logging.getLogger()
