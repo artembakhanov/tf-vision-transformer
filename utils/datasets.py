@@ -54,4 +54,22 @@ def load_data(dataset, batch_size=128):
         
         return train_ds, test_ds
             
+def load_labels(dataset):
+    if dataset not in DATASETS:
+        raise ValueError(f"Unknown dataset {dataset}. Please use one of {DATASETS}.")
         
+    if dataset == "mnist":
+        return list("0123456789")
+    
+    elif dataset == "fruits-360":
+        dataset_dir = f"./datasets/{dataset}"
+        if not os.path.isdir(dataset_dir):
+            raise RuntimeError(f"The {dataset} cannot be found. "
+                               f"Please download it and unpack into datasets directory. "
+                               f"Do not forget to mount the directory to this container. ")
+        
+        labels = sorted(os.listdir("datasets/fruits-360/Test"))
+        
+        assert len(labels) == 131
+        
+        return labels
