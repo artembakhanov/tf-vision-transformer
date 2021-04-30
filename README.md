@@ -16,7 +16,7 @@ Also do not forget to volume bind datasets folder to all your containers.
 1. Run Jupyter Notebook:
 
    ```bash
-   docker run --rm -it -v $(pwd)/datasets:/tf/datasets artembakhanov/vit
+   docker run --rm -it -p 8888:8888 -v $(pwd)/datasets:/tf/datasets artembakhanov/vit
    ```
       
 
