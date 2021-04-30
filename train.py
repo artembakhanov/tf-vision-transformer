@@ -31,9 +31,9 @@ if __name__ == "__main__":
     parser.add_argument("--batch-size", default=128, type=int)
     parser.add_argument("--epochs", default=40, type=int)
     parser.add_argument("--model-name", default=generate_slug(2), help="model name for easier memorization")
-    parser.add_argument("--checkpoints", action='store_true', "save checkpoints")
+    parser.add_argument("--checkpoints", action='store_true', help="save checkpoints")
     parser.add_argument("--checkpoints-dir", default="checkpoints/")
-    parser.add_argument("--save-freq", default=3, type=int, "period of saving checkpoints (in epochs)")
+    parser.add_argument("--save-freq", default=3, type=int, help="period of saving checkpoints (in epochs)")
     parser.add_argument("--model-dir", default="saved_models/")
     args = parser.parse_args()
     
@@ -109,7 +109,7 @@ if __name__ == "__main__":
         checkpoints_callback = tf.keras.callbacks.ModelCheckpoint(
             filepath=checkpoint_filepath,
             save_weights_only=True,
-            monitor='val_accuracy',
+            monitor='accuracy',
             mode='max',
             save_freq=args.save_freq,
             save_best_only=True
