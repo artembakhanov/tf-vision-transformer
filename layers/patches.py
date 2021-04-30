@@ -5,16 +5,18 @@ from tensorflow.keras.initializers import RandomNormal
 
 
 class EmbeddedPatches(tf.keras.layers.Layer):
-    """
-    This layers extracts patches of size P and 
+    """This layers extracts patches of size P and 
     projects them to a latent space of size D;
     Add class and position embeddings.
     
-    Args:
-        patch_size (int): The size of one side of a square patch.
-        latent_dim (int): The size of latent vectors in encoder layers.
-            All the patches will be projected to this dimension.
-        dropout_rate (float): Dropout rate.
+    Parameters
+    ----------
+    patch_size : int
+        The size of one side of a square patch.
+    latent_dim : int 
+        The size of latent vectors in encoder layers.
+    dropout_rate : float
+        Dropout rate.
     """
     
     def __init__(self, patch_size, latent_dim, dropout_rate):

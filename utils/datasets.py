@@ -12,6 +12,21 @@ def split_dataset(x, batch_size):
     
     
 def load_data(dataset, batch_size=128):
+    """Load dataset data.
+    
+    Parameters
+    ----------
+    dataset : string
+        Dataset name.
+    batch_size : int
+        Batch size of train/test splits.
+        
+    Returns
+    -------
+    tensorflow.data.Dataset, tensorflow.data.Dataset
+        Train and test datasets.
+    """
+    
     if dataset not in DATASETS:
         raise ValueError(f"Unknown dataset {dataset}. Please use one of {DATASETS}.")
         
@@ -59,6 +74,19 @@ def load_data(dataset, batch_size=128):
         return train_ds, test_ds
             
 def load_labels(dataset):
+    """Load string labels for a dataset
+    
+    Parameters
+    ----------
+    dataset : string
+        Dataset name.
+        
+    Returns
+    -------
+    List(str)
+        List of string labels.
+    """
+    
     if dataset not in DATASETS:
         raise ValueError(f"Unknown dataset {dataset}. Please use one of {DATASETS}.")
         

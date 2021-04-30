@@ -3,13 +3,26 @@ import cv2
 import numpy as np
 
 def calculate_mask(model, data, mask_size=(128, 128)):
-    """
-    Calculate mask in a vision transformer model given samples inputs.
+    """Calculate mask in a vision transformer model given samples inputs.
     
     References: 
         * https://arxiv.org/pdf/2005.00928.pdf
         * https://www.kaggle.com/piantic/vision-transformer-vit-visualize-attention-map
         * https://github.com/jeonsworld/ViT-pytorch/blob/main/visualize_attention_map.ipynb
+        
+    Parameters
+    ----------
+    model : tf.keras.Model
+        ViT model instance.
+    data : Either list of np.ndarray or np.ndarray
+        Data to classify.
+    mask_size : (int, int)
+        The size of returned masks.
+        
+    Returns
+    -------
+    List(np.ndarray)
+        Mask for each image.
     """
     
     _, att = model(data, True)

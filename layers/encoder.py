@@ -4,14 +4,18 @@ from tensorflow.keras.activations import gelu
 
 
 class TransformerEncoder(tf.keras.layers.Layer):
-    """
-    This class represents one encoder of the transformer.
+    """This class represents one encoder of the transformer.
     
-    Args:
-        latent_dim (int): The size of latent vectors.
-        heads_num (int): The number of heads in MSA layers.
-        mlp_dim (int): The size of one hidden layer in the MLP.
-        dropout_rate (float): Dropout rate.
+    Parameters
+    ----------
+    latent_dim : int 
+        The size of latent vectors in encoder layers.
+    heads_num : int 
+        The number of heads in MSA layers inside encoder layer.
+    mlp_dim : int
+        The size of one hidden layer in the MLP inside encoder layer.
+    dropout_rate : float
+        Dropout rate.
     """
     
     def __init__(self, 
