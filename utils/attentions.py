@@ -2,7 +2,7 @@ import tensorflow as tf
 import cv2
 import numpy as np
 
-def calculate_mask(model, data, mask_size=(128, 128)):
+def calculate_mask(model, data, mask_size=(100, 100)):
     """Calculate mask in a vision transformer model given samples inputs.
     
     References: 
@@ -49,7 +49,7 @@ def calculate_mask(model, data, mask_size=(128, 128)):
     
     numpy_masks = []
     for mask in masks:
-        mask = cv2.resize(mask / mask.max(), (100, 100))[..., None]
+        mask = cv2.resize(mask / mask.max(), mask_size)[..., None]
         numpy_masks.append(mask)
         
         
