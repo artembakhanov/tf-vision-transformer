@@ -28,8 +28,8 @@ class VisionTransformer(tf.keras.Model):
         
         self.mlp_head = MLPHead(classes_num)
         
-    def call(self, input, training, ret_scores=False):
-        x = self.emb_patches(input, training)
+    def call(self, input, ret_scores=False):
+        x = self.emb_patches(input)
         
         all_scores = []
         

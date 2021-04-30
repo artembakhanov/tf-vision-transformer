@@ -58,7 +58,7 @@ class EmbeddedPatches(tf.keras.layers.Layer):
         )
     
         
-    def call(self, input, training):
+    def call(self, input):
         batch_size = tf.shape(input)[0]
         patches = tf.image.extract_patches(input, 
                                         sizes=[1, self.patch_size, self.patch_size, 1], 
@@ -82,7 +82,7 @@ class EmbeddedPatches(tf.keras.layers.Layer):
         patches = patches + bc_pos_emb
         
         # dropout
-        patches = self.dropout(patches, training)
+        patches = self.dropout(patches)
         
         return patches
 
