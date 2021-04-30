@@ -10,6 +10,7 @@ from coolname import generate_slug
 import logging
 from pathlib import Path
 import sys
+import json
 
 
 if __name__ == "__main__":
@@ -129,6 +130,12 @@ if __name__ == "__main__":
 
     model.save_weights(model_dir / 'final.weights')
     logger.info(f"Model weights saved to {model_dir / 'final.weights'}.")
+    
+    
+    # save custom config
+    # kostyl
+    with open(model_dir / "config.json", "w") as f:
+        f.write(json.dumps(dict(model.config)))
 
 
     

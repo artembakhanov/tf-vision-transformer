@@ -19,6 +19,16 @@ class VisionTransformer(tf.keras.Model):
     
     def __init__(self, patch_size, latent_dim, heads_num, mlp_dim, encoders_num, mlp_head_dim, classes_num, dropout_rate):
         super().__init__()
+        self.config = {
+            "patch_size": patch_size,
+            "latent_dim": latent_dim,
+            "heads_num": heads_num,
+            "mlp_dim": mlp_dim,
+            "encoders_num": encoders_num,
+            "mlp_head_dim": mlp_head_dim,
+            "classes_num": classes_num,
+            "dropout_rate": dropout_rate
+        }
         self.emb_patches = EmbeddedPatches(patch_size, latent_dim, dropout_rate)
         
         self.encoders = [
@@ -49,3 +59,4 @@ class VisionTransformer(tf.keras.Model):
             return x, all_scores
         else:
             return x
+        
