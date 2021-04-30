@@ -33,7 +33,6 @@ if __name__ == "__main__":
     parser.add_argument("--checkpoints", action='store_true')
     parser.add_argument("--checkpoints-dir", default="checkpoints/")
     parser.add_argument("--save-freq", default=3, type=int)
-    parser.add_argument("--save-weights", action='store_true')
     parser.add_argument("--model-dir", default="saved_models/")
     args = parser.parse_args()
     
@@ -98,6 +97,9 @@ if __name__ == "__main__":
               ),
               metrics=['accuracy'])
     
+    for x, _ in train_ds:
+        _ = model(x, True)
+        break
     
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
     callbacks = [tensorboard_callback]
@@ -125,9 +127,8 @@ if __name__ == "__main__":
     model.save(model_dir / "final.model")
     logger.info(f"Model saved to {model_dir / 'final.model'}.")
 
-    if args.save_weights:
-        model.save_weights(model_dir / 'final.weights')
-        logger.info(f"Model weights saved to {model_dir / 'final.weights'}.")
+    model.save_weights(model_dir / 'final.weights')
+    logger.info(f"Model weights saved to {model_dir / 'final.weights'}.")
 
 
     
